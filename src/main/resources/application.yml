@@ -1,0 +1,51 @@
+camunda.bpm:
+  authorization.enabled: true
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Demo
+  application:
+    delete-upon-undeploy: true
+    deploy-changed-only: true
+    resume-previous-versions: false
+#  historyLevelCheckEnabled: false
+
+#  filter:
+#    create: All tasks
+
+#spring:
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+#    driverClassName: org.h2.Driver
+#    username: sa
+#    password: password
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+#  h2:
+#    console:
+#      path: /h2-console
+#    settings:
+#      trace: false
+#      web-allow-others: false
+
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/camunda-poc
+    username: user
+    password: password
+    testOnBorrow: true
+    validationQuery: SELECT 1
+    hikari:
+      maximumPoolSize: 50
+      idleTimeout: 600000
+      connectionTimeout: 100000
+      validationTimeout: 5000
+      maxLifetime: 1800000
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: false
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect

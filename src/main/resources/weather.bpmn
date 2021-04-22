@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0kv012j" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.7.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.14.0">
+  <bpmn:process id="Process_1p42edd" name="Is the weather ok?" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Process start">
+      <bpmn:outgoing>Flow_0qkwhie</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0qkwhie" sourceRef="StartEvent_1" targetRef="Activity_1dxd0hg" />
+    <bpmn:endEvent id="Event_1ldgxtm" name="Process end">
+      <bpmn:incoming>Flow_14g6pz7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0masc6r" sourceRef="Activity_1dxd0hg" targetRef="Gateway_0d0u3o3" />
+    <bpmn:serviceTask id="Activity_1dxd0hg" name="Check weather" camunda:class="app.camunda.weather.CheckWeatherDelegate">
+      <bpmn:incoming>Flow_0qkwhie</bpmn:incoming>
+      <bpmn:outgoing>Flow_0masc6r</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_0d0u3o3" name="Is the weather ok?">
+      <bpmn:incoming>Flow_0masc6r</bpmn:incoming>
+      <bpmn:outgoing>Flow_14g6pz7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ltodqa</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_14g6pz7" name="Yes" sourceRef="Gateway_0d0u3o3" targetRef="Event_1ldgxtm">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{weatherOk}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1ltodqa" name="No" sourceRef="Gateway_0d0u3o3" targetRef="Activity_1o77occ">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not weatherOk}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_1o77occ" name="Print complaint about weather" camunda:class="app.camunda.weather.LoggerDelegate">
+      <bpmn:incoming>Flow_1ltodqa</bpmn:incoming>
+      <bpmn:outgoing>Flow_1fis0ld</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0ch5cf4">
+      <bpmn:incoming>Flow_1fis0ld</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1fis0ld" sourceRef="Activity_1o77occ" targetRef="Event_0ch5cf4" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1p42edd">
+      <bpmndi:BPMNEdge id="Flow_0qkwhie_di" bpmnElement="Flow_0qkwhie">
+        <di:waypoint x="215" y="360" />
+        <di:waypoint x="280" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0masc6r_di" bpmnElement="Flow_0masc6r">
+        <di:waypoint x="380" y="360" />
+        <di:waypoint x="535" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14g6pz7_di" bpmnElement="Flow_14g6pz7">
+        <di:waypoint x="585" y="360" />
+        <di:waypoint x="762" y="360" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="665" y="342" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ltodqa_di" bpmnElement="Flow_1ltodqa">
+        <di:waypoint x="560" y="335" />
+        <di:waypoint x="560" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="532" y="213" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fis0ld_di" bpmnElement="Flow_1fis0ld">
+        <di:waypoint x="610" y="120" />
+        <di:waypoint x="762" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="342" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="165" y="385" width="65" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_005seiw_di" bpmnElement="Activity_1dxd0hg">
+        <dc:Bounds x="280" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ch5cf4_di" bpmnElement="Event_0ch5cf4">
+        <dc:Bounds x="762" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ldgxtm_di" bpmnElement="Event_1ldgxtm">
+        <dc:Bounds x="762" y="342" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="750" y="385" width="62" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0134qf2_di" bpmnElement="Activity_1o77occ">
+        <dc:Bounds x="510" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0d0u3o3_di" bpmnElement="Gateway_0d0u3o3" isMarkerVisible="true">
+        <dc:Bounds x="535" y="335" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="519" y="392" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
